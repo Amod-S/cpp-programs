@@ -1,54 +1,60 @@
 #include <iostream>
 using namespace std;
 
+struct Node
+{
+    int data, priority;
+    Node *next;
+};
+
 int main()
 {
-    int hash_t[10];
-    int T[10];
-    int arr[10];
-    int hash_k;
+    Node *head = NULL; // head points to first node, initially empty
+    int n;
+    cout << "Enter number of nodes: ";
+    cin >> n;
 
-    cout << "Enter values: ";
-    for (int i = 0; i < 10; i++)
+    for (int i = 0; i < n; i++)
     {
-        cin >> arr[i];
-    }
-    for (int i = 0; i < 10; i++)
-    {
-        cout << arr[i] << '\n';
-    }
+        Node *newnode = new Node();
+        newnode->next = NULL;
+        cout << "Enter data: ";
+        cin >> newnode->data;
+        cout << "Enter priority: ";
+        cin >> newnode->priority;
 
-    for (int i = 0; i < 10; i++)
-    {
-        T[i] = 0;
-    }
-
-    for (int i = 0; i < 10; i++)
-    {
-        hash_k = arr[i] % 10;
-        if (T[hash_k] == 0)
+        // empty list
+        if (head == NULL)
         {
-            hash_t[hash_k] = arr[i];
-            T[hash_k] = 1;
+            head = newnode;
         }
+        // insert at front
+        else if (newnode->priority > head->priority)
+        {
+            newnode->next = head;
+            head = newnode;
+        }
+        // insert in middle or end
         else
         {
-            for (int j = 0; j < 10; j++)
+            Node *temp = head;
+            while (temp->next != NULL && temp->next->priority >= newnode->priority)
             {
-                int hash_k2 = (hash_k + j) % 10;
-                if (T[hash_k2] == 0)
-                {
-                    hash_t[hash_k2] = arr[i];
-                    T[hash_k2] = 1;
-                    break;
-                }
+                temp = temp->next;
             }
+            newnode->next = temp->next;
+            temp->next = newnode;
         }
     }
-    cout << "Hash Table:\n";
-    for (int i = 0; i < 10; i++)
+
+    // Print the list
+    Node *temp3 = head;
+    int taskNo = 1;
+    while (temp3 != NULL)
     {
-        cout << hash_t[i] << '\n';
+        cout << "Task " << taskNo++ << ": " << temp3->data << '\n';
+        temp3 = temp3->next;
     }
+
     return 0;
 }
