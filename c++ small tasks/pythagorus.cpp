@@ -17,7 +17,29 @@ int main()
     hypotenuse = sqrt(pow(base, 2) + pow(height, 2));
 
     // display results
-    std::cout << "\nThe hypotenuse is " << hypotenuse << " units long";
+    std::cout << "\nThe hypotenuse is " << hypotenuse << " units long\n";
 
-        return 0;
+    //*************nested for loops task ******************
+
+    int rows, columns;
+    char symbol;
+    std::cout << "\nEnter number of rows: ";
+    std::cin >> rows;
+
+    std::cout << "\nEnter number of columns: ";
+    std::cin >> columns;
+
+    std::cout << "\nEnter symbol to print: ";
+    std::cin >> symbol;
+
+    for (int i = 1; i <= rows; i++)
+    {
+        for (int j = 1; j <= columns; j++)
+        {
+            std::cout << symbol;
+        }
+        std::cout << '\n';
+    }
+
+    return 0;
 }
