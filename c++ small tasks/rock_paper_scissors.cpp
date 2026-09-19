@@ -21,8 +21,11 @@ int main()
         char computer = getComputerInput();
         computeResults(user, computer);
 
-        std::cout << "Press 'p' to play again, 'e' to exit.\n";
-        std::cin >> status;
+        do
+        {
+            std::cout << "Press 'p' to play again, 'e' to exit.\n";
+            std::cin >> status;
+        } while (status != 'p' && status != 'e');
 
         if (status == 'e')
         {
