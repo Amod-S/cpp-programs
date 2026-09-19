@@ -4,10 +4,13 @@
 char getUserInput();
 char getComputerInput();
 void computeResults(char user, char computer);
+int user_score = 0;
+int computer_score = 0;
 
 int main()
 {
     char status;
+
     do
     {
         std::cout << "Welcome to the game of Rock, Paper & Scissors!\n";
@@ -20,11 +23,25 @@ int main()
 
         std::cout << "Press 'p' to play again, 'e' to exit.\n";
         std::cin >> status;
+
         if (status == 'e')
         {
+            std::cout << "Final scores: \n";
+            std::cout << "Your score : " << user_score << '\n';
+            std::cout << "Computer's score : " << computer_score << '\n';
+            if (user_score > computer_score)
+            {
+                std::cout << "You win the match!!\n";
+            }
+            else
+            {
+                std::cout << "You lose the match!!\n";
+            }
             std::cout << "Thanks for playing!\n";
+            std::cout << "*****************************\n";
             break;
         }
+
     } while (true);
     return 0;
 }
@@ -61,25 +78,31 @@ void computeResults(char user, char computer)
     else if (user == 'r' && computer == 'p')
     {
         std::cout << "You lose!\n";
+        computer_score++;
     }
     else if (user == 'r' && computer == 's')
     {
         std::cout << "You win!\n";
+        user_score++;
     }
     else if (user == 'p' && computer == 'r')
     {
         std::cout << "You win!\n";
+        user_score++;
     }
     else if (user == 'p' && computer == 's')
     {
         std::cout << "You lose!\n";
+        computer_score++;
     }
     else if (user == 's' && computer == 'r')
     {
         std::cout << "You lose!\n";
+        computer_score++;
     }
     else if (user == 's' && computer == 'p')
     {
         std::cout << "You win!\n";
+        user_score++;
     }
 }
