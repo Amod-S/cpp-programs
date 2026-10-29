@@ -48,6 +48,11 @@ public:
     }
     void deposit(float amt)
     {
+        if (amt < 0)
+        {
+            cout << "You cannot deposit a negative amount." << endl;
+            return;
+        }
         balance += amt;
     }
     void withdraw(float amt)
@@ -58,7 +63,7 @@ public:
             return;
         }
         balance -= amt;
-    }
+        }
     void display()
     {
         cout << "Name: " << name << endl;
