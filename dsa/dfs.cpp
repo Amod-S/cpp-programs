@@ -39,7 +39,33 @@ Starting DFS web crawling from page: 0
 #include <iostream>
 using namespace std;
 
-void dfs(int vertex, int adj_mat[][10], bool visited[], int nodes)
+bool isFull(int top, int stack[], int max)
+{
+    return top == max - 1;
+}
+bool isEmpty(int top, int stack[])
+{
+    return top == -1;
+}
+
+int pop(int &top, int stack[])
+{
+    if (isEmpty(top, stack))
+    {
+        return -1;
+    }
+    return stack[top--];
+}
+
+void push(int &top, int value, int stack[], int nodes)
+{
+    if (!isFull(top, stack, nodes))
+    {
+        stack[++top] = value;
+    }
+}
+
+void dfs_recursive(int vertex, int adj_mat[][10], bool visited[], int nodes)
 {
     cout << vertex << endl;
     visited[vertex] = true;
@@ -47,8 +73,36 @@ void dfs(int vertex, int adj_mat[][10], bool visited[], int nodes)
     {
         if (adj_mat[vertex][i] == 1 && visited[i] == false)
         {
-            dfs(i, adj_mat, visited, nodes);
+            dfs_recursive(i, adj_mat, visited, nodes);
         }
+    }
+}
+
+void dfs_iterative(int stack[], int adj_mat[][10], bool visited[], int nodes)
+{
+    int top = 0;
+    int result[nodes];
+    int i = -1;
+    while (!isEmpty(top, stack))
+    {
+        int current = pop(top, stack);
+        if (visited[current] == false)
+        {
+            i++;
+            result[i] = current;
+            visited[current] = true;
+        }
+        for (int j = 0; j < nodes; j++)
+        {
+            if (adj_mat[current][j] == 1 && visited[j] == false)
+            {
+                push(top, j, stack, nodes);
+            }
+        }
+    }
+    for (int j = 0; j <= i; j++)
+    {
+        cout << result[j] << "  ";
     }
 }
 
@@ -86,8 +140,22 @@ int main()
         visited[i] = false;
     }
     int result[nodes];
+    int user_choice;
+    cout << "Choose an option.\n";
+    cout << "1. dfs iterative\n";
+    cout << "2. dfs recursive\n";
+    cin >> user_choice;
     cout << "Displaying the web pages after dfs traversal" << endl;
-    dfs(start, adj_matr, visited, nodes);
+    if (user_choice == 1)
+    {
+        int stack[nodes];
+        stack[0] = start;
+        dfs_iterative(stack, adj_matr, visited, nodes);
+    }
+    else
+    {
+        dfs_recursive(start, adj_matr, visited, nodes);
+    }
 
     return 0;
 }
