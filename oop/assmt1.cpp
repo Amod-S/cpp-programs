@@ -1,66 +1,101 @@
-/*Topics: Classes, Objects, Data Members, Methods
+/*Task 1-
+Operations on Bank Account
+Implement a class to illustrate working of a bank account of a customer that consists
+of following members Data members:
+i. Name of the customer
+ii. Account Type
+iii. Account Number
+iv. Available balance amount in the account
+Member Functions:
+i. Assign initial values using constructors.
+ii. Deposit an amount in account
+iii. Withdraw an amount
+iv. Display account details*/
 
-Assignment 1: Student
-Data:
-- Name
-- Roll Number
-- Marks
-
-Functions:
-- Input
-- Display
-- Calculate percentage
-
-
-Goal:
-
-Create objects
-Call methods
-Understand class organization
-*/
 #include <iostream>
 using namespace std;
 
-class Student
+class Bank
 {
-    string name;
-    int roll_no;
-    float marks;
+    string m_name, m_acc_type;
+    int m_acc_number;
+    float balance;
 
 public:
-    // setter
-    void get_data(string n, int rollNo, float grade)
+    // default constructor
+    Bank()
     {
-        name = n;
-        roll_no = rollNo;
-        marks = grade;
+        m_name = "user";
+        m_acc_type = "savings";
+        m_acc_number = -1;
+        balance = 0;
     }
-    void display_data()
+    // parameterized constructor
+    Bank(string name, string type, int number, float balance)
     {
-        cout << "Student Data:" << endl;
-        cout << "Name: " << name << endl;
-        cout << "Roll number: " << roll_no << endl;
-        cout << "Marks: " << marks << endl;
+        this->m_name = name;
+        this->m_acc_type = type;
+        this->m_acc_number = number;
+        this->balance = balance;
     }
-    float calc_percentage(int total)
+    // copy constructor
+    Bank(const Bank &obj)
     {
-        float percentage = (marks / total) * 100;
-        return percentage;
+        m_name = obj.m_name;
+        m_acc_type = obj.m_acc_type;
+        m_acc_number = obj.m_acc_number;
+        balance = obj.balance;
+    }
+    // member functions-
+    // deposit
+    void deposit(float amt)
+    {
+        if (amt < 0)
+        {
+            cout << "You cannot deposit a negative amount of money." << endl;
+            return;
+        }
+        balance += amt;
+    }
+    // withdraw
+    float withdraw(float amt)
+    {
+        if (amt < 0)
+        {
+            cout << "You cannot withdraw a negative amount of money." << endl;
+            return -1;
+        }
+        if (balance < amt)
+        {
+            cout << "There isn't enough balance in your account to withdraw " << amt << " Rs." << endl;
+            return -1;
+        }
+        balance -= amt;
+        cout << "Here are your " << amt << " rupees" << endl;
+        return amt;
+    }
+    // display
+    void display()
+    {
+        cout << "Name: " << m_name << endl;
+        cout << "Account type: " << m_acc_type << endl;
+        cout << "Account number: " << m_acc_number << endl;
+        cout << "Balance: " << balance << endl;
     }
 };
 
 int main()
 {
-    string name;
-    int roll_no;
-    float marks;
-    int total;
-    Student s1;
-    cout << "Enter student details." << endl;
-    cin >> name >> roll_no >> marks;
-    s1.get_data(name, roll_no, marks);
-    s1.display_data();
-    cout << "Enter total marks" << endl;
-    cin >> total;
-    cout << s1.calc_percentage(total) << endl;
+    Bank b1; // default constr called
+    b1.deposit(300.45);
+    b1.withdraw(20.89);
+    b1.withdraw(-2);
+    b1.withdraw(500.43);
+    b1.display();
+
+    Bank b2("abc", "savings", 12345, 23.34); // param constr
+    b2.display();
+
+    Bank b3 = b2; // copy constr
+    b3.display();
 }
