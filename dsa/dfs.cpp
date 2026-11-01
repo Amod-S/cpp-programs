@@ -106,6 +106,57 @@ void dfs_iterative(int stack[], int adj_mat[][10], bool visited[], int nodes)
     }
 }
 
+bool q_isFull(int tail, int max_size = 10)
+{
+    return tail >= max_size - 1;
+}
+
+bool q_isEmpty(int head, int tail)
+{
+    return head > tail;
+}
+
+void enqueue(int queue[], int value, int &tail)
+{
+    if (q_isFull(tail))
+    {
+        return;
+    }
+    tail++;
+    queue[tail] = value;
+}
+
+int dequeue(int queue[], int &head)
+{
+    int val = queue[head];
+    head++;
+    return val;
+}
+
+void bfs(int queue[], bool visited[], int adj_mat[][10], int nodes, int start)
+{
+    int head = 0;
+    int tail = -1;
+
+    // Enqueue the start node
+    enqueue(queue, start, tail);
+    visited[start] = true;
+
+    // Process nodes until the queue is empty
+    while (!q_isEmpty(head, tail))
+    {
+        int current = dequeue(queue, head);
+
+        for (int i = 0; i < nodes; i++)
+        {
+            if (adj_mat[current][i] == 1 && !visited[i])
+            {
+                visited[i] = true;
+                enqueue(queue, i, tail);
+            }
+        }
+    }
+}
 int main()
 {
     int nodes, edges;
@@ -140,21 +191,32 @@ int main()
         visited[i] = false;
     }
     int result[nodes];
+    int stack[nodes];
+    int queue[nodes];
+
     int user_choice;
     cout << "Choose an option.\n";
     cout << "1. dfs iterative\n";
     cout << "2. dfs recursive\n";
+    cout << "3. bfs\n";
     cin >> user_choice;
     cout << "Displaying the web pages after dfs traversal" << endl;
-    if (user_choice == 1)
+    switch (user_choice)
     {
-        int stack[nodes];
+    case 1:
+
         stack[0] = start;
         dfs_iterative(stack, adj_matr, visited, nodes);
-    }
-    else
-    {
+        break;
+    case 2:
         dfs_recursive(start, adj_matr, visited, nodes);
+        break;
+    case 3:
+        bfs(queue, visited, adj_matr, nodes, start);
+        break;
+    default:
+        cout << "Enter valid input.\n";
+        break;
     }
 
     return 0;
